@@ -1,6 +1,6 @@
 ---
 title: Smart Support Env Environment Server
-emoji:  
+emoji: 🎧
 colorFrom: blue
 colorTo: indigo
 sdk: docker
