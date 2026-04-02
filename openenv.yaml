@@ -1,0 +1,36 @@
+name: smart-support-env
+version: "1.0"
+description: >
+  AI customer-support agent environment. An agent handles real customer
+  queries (refunds, fraud, escalations, etc.) and is scored on intent
+  accuracy, response empathy, escalation decisions, and fraud detection.
+  Three difficulty levels: easy → medium → hard.
+
+endpoints:
+  reset: /reset
+  step:  /step
+  state: /state
+
+tasks:
+  - easy
+  - medium
+  - hard
+
+action_space:
+  intent:    "string  – one of: refund, delivery_issue, complaint, fraud, language_request, track_order, escalation"
+  response:  "string  – empathetic reply to the customer"
+  escalate:  "boolean – whether to escalate to a human agent"
+  is_fraud:  "boolean – whether fraud is detected"
+  language:  "string  – detected/requested language code (e.g. 'en', 'es')"
+  order_id:  "string  – extracted order ID if present"
+
+observation_space:
+  task_type:         "string  – difficulty level (easy | medium | hard)"
+  customer_message:  "string  – raw customer query"
+  done:              "boolean – True after first step (single-turn)"
+  reward:            "float   – score 0.0–1.0"
+  metadata:
+    episode_id:       "string"
+    expected_intent:  "string"
+    agent_intent:     "string"
+    feedback:         "string – Good job! | Partially correct. | Needs improvement."
