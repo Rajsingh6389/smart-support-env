@@ -15,14 +15,14 @@ from server.smart_support_env_environment import (
     ALL_SCENARIOS,
     score_action,
 )
-import smart_client
+import client
 
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
-def perfect_action(scenario: dict) -> smart_client.SmartSupportAction:
+def perfect_action(scenario: dict) -> client.SmartSupportAction:
     """Build an action that matches all expected fields."""
-    return smart_client.SmartSupportAction(
+    return client.SmartSupportAction(
         intent=scenario["expected_intent"],
         response="I'm truly sorry to hear that — I'm happy to help you resolve this.",
         escalate=scenario["expect_escalate"],
@@ -30,8 +30,8 @@ def perfect_action(scenario: dict) -> smart_client.SmartSupportAction:
     )
 
 
-def blank_action() -> smart_client.SmartSupportAction:
-    return smart_client.SmartSupportAction(
+def blank_action() -> client.SmartSupportAction:
+    return client.SmartSupportAction(
         intent="complaint",
         response="Ok.",
     )

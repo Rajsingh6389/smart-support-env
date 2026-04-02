@@ -22,7 +22,7 @@ if root_dir not in sys.path:
 from openenv.core.env_server.interfaces import Environment
 from openenv.core.env_server.types import State
 
-import smart_client
+import client
 
 # ─── Task names exposed via /tasks ───────────────────────────────────────────
 TASK_NAMES: List[str] = ["easy", "medium", "hard"]
@@ -111,7 +111,7 @@ ALL_SCENARIOS: Dict[str, List[Dict]] = {
 
 # ─── Graders (separate rubric per difficulty) ─────────────────────────────────
 
-def _grade_easy(action: smart_client.SmartSupportAction, scenario: Dict) -> float:
+def _grade_easy(action: client.SmartSupportAction, scenario: Dict) -> float:
     """Easy: intent match (0.5) + empathy in response (0.5)."""
     score = 0.0
     if action.intent == scenario["expected_intent"]:
@@ -123,7 +123,7 @@ def _grade_easy(action: smart_client.SmartSupportAction, scenario: Dict) -> floa
     return round(min(score, 1.0), 4)
 
 
-def _grade_medium(action: smart_client.SmartSupportAction, scenario: Dict) -> float:
+def _grade_medium(action: client.SmartSupportAction, scenario: Dict) -> float:
     """Medium: intent (0.4) + empathy (0.3) + escalation (0.3)."""
     score = 0.0
     if action.intent == scenario["expected_intent"]:
@@ -137,7 +137,7 @@ def _grade_medium(action: smart_client.SmartSupportAction, scenario: Dict) -> fl
     return round(min(score, 1.0), 4)
 
 
-def _grade_hard(action: smart_client.SmartSupportAction, scenario: Dict) -> float:
+def _grade_hard(action: client.SmartSupportAction, scenario: Dict) -> float:
     """Hard: intent (0.30) + empathy (0.25) + escalation (0.20) + fraud (0.25)."""
     score = 0.0
     if action.intent == scenario["expected_intent"]:
@@ -161,7 +161,7 @@ GRADERS = {
 
 
 def score_action(
-    action: smart_client.SmartSupportAction,
+    action: client.SmartSupportAction,
     scenario: Dict,
 ) -> float:
     task_type = scenario.get("task_type", "easy")
@@ -173,8 +173,8 @@ def score_action(
 
 class SmartSupportEnvironment(
     Environment[
-        smart_client.SmartSupportAction,
-        smart_client.SmartSupportObservation,
+        client.SmartSupportAction,
+        client.SmartSupportObservation,
         State,
     ]
 ):
@@ -203,7 +203,7 @@ class SmartSupportEnvironment(
         episode_id: Optional[str] = None,
         task_type: Optional[str] = None,
         **kwargs: Any,
-    ) -> smart_client.SmartSupportObservation:
+    ) -> client.SmartSupportObservation:
         if seed is not None:
             random.seed(seed)
 
@@ -218,7 +218,7 @@ class SmartSupportEnvironment(
 
         self._current_scenario = random.choice(ALL_SCENARIOS[self._task_type])
 
-        return smart_client.SmartSupportObservation(
+        return client.SmartSupportObservation(
             task_type=self._task_type,
             customer_message=self._current_scenario["customer_message"],
             done=False,
@@ -229,13 +229,13 @@ class SmartSupportEnvironment(
     # ------------------------------------------------------------------
     def step(
         self,
-        action: smart_client.SmartSupportAction,
+        action: client.SmartSupportAction,
         timeout_s: Optional[float] = None,
         **kwargs: Any,
-    ) -> smart_client.SmartSupportObservation:
+    ) -> client.SmartSupportObservation:
         if not self._current_scenario:
             # reset was never called
-            return smart_client.SmartSupportObservation(
+            return client.SmartSupportObservation(
                 task_type="error",
                 customer_message="",
                 done=True,
@@ -252,7 +252,7 @@ class SmartSupportEnvironment(
             else "Needs improvement."
         )
 
-        return smart_client.SmartSupportObservation(
+        return client.SmartSupportObservation(
             task_type=self._task_type,
             customer_message=self._current_scenario["customer_message"],
             done=True,
@@ -282,7 +282,7 @@ if __name__ == "__main__":
     for level in TASK_NAMES:
         obs = env.reset(task_type=level, seed=42)
         print(f"\n[{level.upper()}] {obs.customer_message}")
-        action = smart_client.SmartSupportAction(
+        action = client.SmartSupportAction(
             intent=env._current_scenario["expected_intent"],
             response="Sorry to hear that — I am happy to help you resolve this.",
             escalate=env._current_scenario["expect_escalate"],

@@ -22,7 +22,7 @@ root_dir = os.path.abspath(os.path.dirname(__file__))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
-import smart_client
+import client as env_client
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 API_KEY      = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
@@ -80,7 +80,7 @@ def log_end(success: bool, steps: int, score: float,
 
 # ─── LLM → Action ─────────────────────────────────────────────────────────────
 def get_action(client: OpenAI, step: int,
-               customer_message: str) -> smart_client.SmartSupportAction:
+               customer_message: str) -> env_client.SmartSupportAction:
     user_prompt = f"Step {step}. Customer says: {customer_message}\nReply with JSON only."
     try:
         completion = client.chat.completions.create(
@@ -98,9 +98,9 @@ def get_action(client: OpenAI, step: int,
             lines = text.split("\n")
             text  = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
         data = json.loads(text)
-        return smart_client.SmartSupportAction(**data)
+        return env_client.SmartSupportAction(**data)
     except Exception:
-        return smart_client.SmartSupportAction(
+        return env_client.SmartSupportAction(
             intent="complaint",
             response="Sorry, I'm here to help you with this issue.",
         )
@@ -109,7 +109,7 @@ def get_action(client: OpenAI, step: int,
 # ─── Main ─────────────────────────────────────────────────────────────────────
 async def main() -> None:
     client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
-    env    = smart_client.SmartSupportEnv(base_url=BASE_URL)
+    env    = env_client.SmartSupportEnv(base_url=BASE_URL)
 
     rewards:     List[float] = []
     steps_taken: int         = 0

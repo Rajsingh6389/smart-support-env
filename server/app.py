@@ -16,14 +16,14 @@ if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
 from openenv.core.env_server.http_server import create_app
-import smart_client
+import client
 from server.smart_support_env_environment import SmartSupportEnvironment, TASK_NAMES
 
 # ─── Create the standard OpenEnv FastAPI app ─────────────────────────────────
 app = create_app(
     SmartSupportEnvironment,
-    smart_client.SmartSupportAction,
-    smart_client.SmartSupportObservation,
+    client.SmartSupportAction,
+    client.SmartSupportObservation,
     env_name="smart_support_env",
     max_concurrent_envs=5,
 )
