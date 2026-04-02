@@ -1,5 +1,5 @@
 """
-Inference Script – Smart Support Environment
+Inference Script - Smart Support Environment
 =============================================
 - Uses API_BASE_URL + HF_TOKEN for LLM calls via OpenAI client
 - Emits structured stdout: [START], [STEP], [END]
@@ -17,14 +17,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ─── Project root on path ─────────────────────────────────────────────────────
+#     Project root on path                                                      
 root_dir = os.path.abspath(os.path.dirname(__file__))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
 import client as env_client
 
-# ─── Config ───────────────────────────────────────────────────────────────────
+#     Config                                                                    
 API_KEY      = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME   = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
@@ -35,22 +35,22 @@ BENCHMARK  = "smart_support_env"
 MAX_STEPS  = 5
 SUCCESS_SCORE_THRESHOLD = 0.1
 
-# ─── System prompt ────────────────────────────────────────────────────────────
+#     System prompt                                                             
 SYSTEM_PROMPT = textwrap.dedent("""
     You are an AI customer support agent.
     Respond to the customer message with a valid JSON object containing:
-      intent    – one of: refund, delivery_issue, complaint, fraud,
+      intent    - one of: refund, delivery_issue, complaint, fraud,
                   language_request, track_order, escalation
-      response  – empathetic reply (must include "sorry" or "help")
-      escalate  – true/false
-      is_fraud  – true/false
-      language  – language code (e.g. "en") or null
-      status    – brief status or null
+      response  - empathetic reply (must include "sorry" or "help")
+      escalate  - true/false
+      is_fraud  - true/false
+      language  - language code (e.g. "en") or null
+      status    - brief status or null
     Return ONLY valid JSON, no markdown fences.
 """).strip()
 
 
-# ─── Logging ──────────────────────────────────────────────────────────────────
+#     Logging                                                                   
 def log_start(task: str, env: str, model: str) -> None:
     print(f"[START] task={task} env={env} model={model}", flush=True)
 
@@ -78,7 +78,7 @@ def log_end(success: bool, steps: int, score: float,
     )
 
 
-# ─── LLM → Action ─────────────────────────────────────────────────────────────
+#     LLM   Action                                                              
 def get_action(client: OpenAI, step: int,
                customer_message: str) -> env_client.SmartSupportAction:
     user_prompt = f"Step {step}. Customer says: {customer_message}\nReply with JSON only."
@@ -106,7 +106,7 @@ def get_action(client: OpenAI, step: int,
         )
 
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
+#     Main                                                                      
 async def main() -> None:
     client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
     env    = env_client.SmartSupportEnv(base_url=BASE_URL)

@@ -10,7 +10,7 @@ from openenv.core.env_server.types import State
 from openenv.core.env_server.http_server import create_app
 
 # =========================
-# 🎯 MODELS (CLEAN)
+#   MODELS (CLEAN)
 # =========================
 class SmartSupportAction(BaseModel):
     intent: Optional[str] = Field(default=None)
@@ -36,7 +36,7 @@ class SmartSupportObservation(BaseModel):
     metadata: Optional[Dict] = Field(default_factory=dict)
 
 # =========================
-# 🧠 ENVIRONMENT (ASYNC)
+#   ENVIRONMENT (ASYNC)
 # =========================
 class SmartSupportEnvironment:
     def __init__(self, **kwargs):
@@ -65,7 +65,7 @@ class SmartSupportEnvironment:
     async def close_async(self): pass
 
 # =========================
-# 🚀 APP
+#   APP
 # =========================
 app = create_app(
     SmartSupportEnvironment,

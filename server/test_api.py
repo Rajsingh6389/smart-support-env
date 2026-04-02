@@ -18,9 +18,9 @@ try:
         max_tokens=50
     )
 
-    print("✅ API WORKING!")
+    print("  API WORKING!")
     print("Response:", response.choices[0].message.content)
 
 except Exception as e:
-    print("❌ API ERROR")
+    print("  API ERROR")
     print(e)

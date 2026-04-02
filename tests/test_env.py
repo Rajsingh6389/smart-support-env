@@ -18,13 +18,13 @@ from server.smart_support_env_environment import (
 import client
 
 
-# ─── Helpers ─────────────────────────────────────────────────────────────────
+#     Helpers                                                                  
 
 def perfect_action(scenario: dict) -> client.SmartSupportAction:
     """Build an action that matches all expected fields."""
     return client.SmartSupportAction(
         intent=scenario["expected_intent"],
-        response="I'm truly sorry to hear that — I'm happy to help you resolve this.",
+        response="I'm truly sorry to hear that - I'm happy to help you resolve this.",
         escalate=scenario["expect_escalate"],
         is_fraud=scenario["expect_fraud"],
     )
@@ -37,7 +37,7 @@ def blank_action() -> client.SmartSupportAction:
     )
 
 
-# ─── Task name tests ─────────────────────────────────────────────────────────
+#     Task name tests                                                          
 
 def test_task_names_exist():
     assert set(TASK_NAMES) == {"easy", "medium", "hard"}
@@ -49,7 +49,7 @@ def test_all_scenarios_populated():
         assert len(ALL_SCENARIOS[name]) >= 1
 
 
-# ─── Reset tests ─────────────────────────────────────────────────────────────
+#     Reset tests                                                              
 
 @pytest.mark.parametrize("level", TASK_NAMES)
 def test_reset_returns_correct_task_type(level):
@@ -61,7 +61,7 @@ def test_reset_returns_correct_task_type(level):
     assert obs.reward == 0.0
 
 
-# ─── Grader tests ─────────────────────────────────────────────────────────────
+#     Grader tests                                                              
 
 @pytest.mark.parametrize("level", TASK_NAMES)
 def test_perfect_score_for_level(level):
@@ -83,7 +83,7 @@ def test_partial_score_for_level(level):
     assert 0.0 <= reward < 1.0, f"Expected partial score on {level}, got {reward}"
 
 
-# ─── Step tests ─────────────────────────────────────────────────────────────
+#     Step tests                                                              
 
 def test_step_without_reset_returns_error():
     env = SmartSupportEnvironment()

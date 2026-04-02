@@ -3,17 +3,17 @@ from typing import Dict, Optional
 from pydantic import Field, field_validator, BaseModel
 
 # =========================
-# 🎯 ACTION MODEL (CLEAN)
+#   ACTION MODEL (CLEAN)
 # =========================
 class SmartSupportAction(BaseModel):
     """Action for customer support environment"""
 
-    # ✅ Core fields
+    #   Core fields
     intent: Optional[str] = Field(default=None, description="Primary intent")
     response: Optional[str] = Field(default=None, description="Agent response")
     order_id: Optional[str] = Field(default=None, description="Order ID")
 
-    # ✅ Advanced fields
+    #   Advanced fields
     secondary_intent: Optional[str] = Field(default=None)
     escalate: Optional[bool] = Field(default=False)
     status: Optional[str] = Field(default=None)
@@ -21,7 +21,7 @@ class SmartSupportAction(BaseModel):
     language: Optional[str] = Field(default=None)
 
     # =========================
-    # 🔥 NORMALIZATION
+    #   NORMALIZATION
     # =========================
     @field_validator("intent", "secondary_intent", "language", mode="before")
     @classmethod
@@ -32,7 +32,7 @@ class SmartSupportAction(BaseModel):
 
 
 # =========================
-# 📊 OBSERVATION MODEL (CLEAN)
+#   OBSERVATION MODEL (CLEAN)
 # =========================
 class SmartSupportObservation(BaseModel):
     """Observation returned to agent"""
@@ -46,7 +46,7 @@ class SmartSupportObservation(BaseModel):
     metadata: Optional[Dict] = Field(default_factory=dict)
 
     # =========================
-    # 🔥 VALIDATION
+    #   VALIDATION
     # =========================
     @field_validator("task_type")
     @classmethod

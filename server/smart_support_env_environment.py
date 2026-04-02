@@ -14,7 +14,7 @@ import sys
 import uuid
 from typing import Any, Dict, List, Optional
 
-# ─── Ensure project root on path ─────────────────────────────────────────────
+#     Ensure project root on path                                              
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
@@ -24,11 +24,11 @@ from openenv.core.env_server.types import State
 
 import client
 
-# ─── Task names exposed via /tasks ───────────────────────────────────────────
+#     Task names exposed via /tasks                                            
 TASK_NAMES: List[str] = ["easy", "medium", "hard"]
 
 
-# ─── Scenario banks per difficulty ───────────────────────────────────────────
+#     Scenario banks per difficulty                                            
 
 EASY_SCENARIOS: List[Dict] = [
     {
@@ -64,7 +64,7 @@ MEDIUM_SCENARIOS: List[Dict] = [
     },
     {
         "task_type": "medium",
-        "customer_message": "Hola, necesito ayuda con mi pedido. No hablo inglés muy bien.",
+        "customer_message": "Hola, necesito ayuda con mi pedido. No hablo ingl s muy bien.",
         "expected_intent": "language_request",
         "expect_escalate": False,
         "expect_fraud": False,
@@ -81,7 +81,7 @@ MEDIUM_SCENARIOS: List[Dict] = [
 HARD_SCENARIOS: List[Dict] = [
     {
         "task_type": "hard",
-        "customer_message": "I never authorised this £299 charge on my account. This is fraud!",
+        "customer_message": "I never authorised this  299 charge on my account. This is fraud!",
         "expected_intent": "fraud",
         "expect_escalate": True,
         "expect_fraud": True,
@@ -109,7 +109,7 @@ ALL_SCENARIOS: Dict[str, List[Dict]] = {
 }
 
 
-# ─── Graders (separate rubric per difficulty) ─────────────────────────────────
+#     Graders (separate rubric per difficulty)                                  
 
 def _grade_easy(action: client.SmartSupportAction, scenario: Dict) -> float:
     """Easy: intent match (0.5) + empathy in response (0.5)."""
@@ -169,7 +169,7 @@ def score_action(
     return grader(action, scenario)
 
 
-# ─── Environment class ────────────────────────────────────────────────────────
+#     Environment class                                                         
 
 class SmartSupportEnvironment(
     Environment[
@@ -276,7 +276,7 @@ class SmartSupportEnvironment(
         )
 
 
-# ─── Standalone test ─────────────────────────────────────────────────────────
+#     Standalone test                                                          
 if __name__ == "__main__":
     env = SmartSupportEnvironment()
     for level in TASK_NAMES:
@@ -284,7 +284,7 @@ if __name__ == "__main__":
         print(f"\n[{level.upper()}] {obs.customer_message}")
         action = client.SmartSupportAction(
             intent=env._current_scenario["expected_intent"],
-            response="Sorry to hear that — I am happy to help you resolve this.",
+            response="Sorry to hear that - I am happy to help you resolve this.",
             escalate=env._current_scenario["expect_escalate"],
             is_fraud=env._current_scenario["expect_fraud"],
         )

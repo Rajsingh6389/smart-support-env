@@ -1,6 +1,6 @@
 ---
 title: Smart Support Env Environment Server
-emoji: 🤝
+emoji:  
 colorFrom: blue
 colorTo: indigo
 sdk: docker
@@ -64,7 +64,7 @@ python inference.py
 |---|---|---|
 | `task_type` | string | Difficulty: `easy` \| `medium` \| `hard` |
 | `customer_message` | string | Raw customer query |
-| `reward` | float | Score 0.0–1.0 |
+| `reward` | float | Score 0.0-1.0 |
 | `done` | boolean | True after first step (single-turn) |
 | `metadata` | dict | `expected_intent`, `agent_intent`, `feedback` |
 
@@ -80,14 +80,14 @@ python inference.py
 
 ```
 smart_support_env/
-├── Dockerfile                         # Container (exposes port 7860)
-├── inference.py                       # Baseline inference script
-├── openenv.yaml                       # OpenEnv manifest
-├── pyproject.toml                     # Project metadata
-├── smart_client.py                    # Action/Observation models + EnvClient
-└── server/
-    ├── app.py                         # FastAPI server (HTTP + WebSocket)
-    └── smart_support_env_environment.py  # Core environment logic
+    Dockerfile                         # Container (exposes port 7860)
+    inference.py                       # Baseline inference script
+    openenv.yaml                       # OpenEnv manifest
+    pyproject.toml                     # Project metadata
+    smart_client.py                    # Action/Observation models + EnvClient
+    server/
+        app.py                         # FastAPI server (HTTP + WebSocket)
+        smart_support_env_environment.py  # Core environment logic
 ```
 
 ## Docker

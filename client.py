@@ -2,7 +2,7 @@ from __future__ import annotations
 import os
 import sys
 
-# 🔥 Ensure root is in sys.path
+#   Ensure root is in sys.path
 root_dir = os.path.abspath(os.path.dirname(__file__))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
@@ -21,13 +21,13 @@ class SmartSupportEnv(
 ):
 
     # =========================
-    # 🚀 CLEAN PAYLOAD (FIXED)
+    #   CLEAN PAYLOAD (FIXED)
     # =========================
     def _step_payload(self, action: SmartSupportAction) -> Dict:
         payload = {}
 
         try:
-            # ✅ Pydantic v1/v2 safe
+            #   Pydantic v1/v2 safe
             data = (
                 action.model_dump()
                 if hasattr(action, "model_dump")
@@ -44,7 +44,7 @@ class SmartSupportEnv(
         return payload
 
     # =========================
-    # 🧪 SAFE RESULT PARSER
+    #   SAFE RESULT PARSER
     # =========================
     def _parse_result(self, payload: Dict) -> StepResult[SmartSupportObservation]:
 
@@ -80,7 +80,7 @@ class SmartSupportEnv(
             )
 
     # =========================
-    # 📊 STATE PARSER (SAFE)
+    #   STATE PARSER (SAFE)
     # =========================
     def _parse_state(self, payload: Dict) -> State:
         try:
