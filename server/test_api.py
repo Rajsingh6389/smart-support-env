@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = OpenAI(
-    base_url=os.getenv("API_BASE_URL"),
-    api_key=os.getenv("HF_TOKEN")
+    base_url=os.environ["API_BASE_URL"],
+    api_key=os.environ["API_KEY"]
 )
 
 try:

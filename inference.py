@@ -25,8 +25,8 @@ if root_dir not in sys.path:
 import client as env_client
 
 #     Config                                                                    
-API_KEY      = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
-API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+API_KEY      = os.environ["API_KEY"]
+API_BASE_URL = os.environ["API_BASE_URL"]
 MODEL_NAME   = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
 BASE_URL     = os.getenv("BASE_URL", "http://localhost:8000")
 
@@ -108,7 +108,7 @@ def get_action(client: OpenAI, step: int,
 
 #     Main                                                                      
 async def main() -> None:
-    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
+    client = OpenAI(base_url=os.environ["API_BASE_URL"], api_key=os.environ["API_KEY"])
     env    = env_client.SmartSupportEnv(base_url=BASE_URL)
 
     rewards:     List[float] = []
