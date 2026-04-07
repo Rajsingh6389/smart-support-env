@@ -1,0 +1,8 @@
+﻿DEBUG BASE: https://router.huggingface.co/v1
+DEBUG KEY: YES
+[START] task=smart_support env=smart_support_env model=gpt-4o-mini
+DEBUG ENV BASE: http://localhost:8000
+PINGING PROXY...
+Proxy Ping Error: Error code: 403 - {'error': 'This authentication method does not have sufficient permissions to call Inference Providers on behalf of user RajS1ngh'}
+[STEP] step=1 action=error reward=0.00 done=true error=Error code: 403 - {'error': 'This authentication method does not have sufficient permissions to call Inference Providers on behalf of user RajS1ngh'}
+[END] success=false steps=0 score=0.000 rewards=

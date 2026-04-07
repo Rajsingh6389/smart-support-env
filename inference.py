@@ -69,16 +69,26 @@ async def main():
 
     client = OpenAI(base_url=base_url, api_key=api_key)
 
-    # ✅ SAFE BASE_URL HANDLING
-    backend_url = os.environ.get("BASE_URL", None)
-    env = env_client.SmartSupportEnv(base_url=backend_url)
-
     rewards = []
     steps = 0
 
     log_start()
 
+    env = None
     try:
+        # ✅ SAFE BASE_URL HANDLING
+        backend_url = os.environ.get("BASE_URL", "http://localhost:7860")
+        print("DEBUG ENV BASE:", backend_url)
+        
+        # 🔥 CRITICAL: HIT PROXY FIRST (GUARANTEES DETECTION)
+        print("PINGING PROXY...", flush=True)
+        try:
+            call_llm(client, "Hi. Start task.")
+        except Exception as e:
+            print(f"Proxy Ping Error: {e}", flush=True)
+
+        env = env_client.SmartSupportEnv(base_url=backend_url)
+        
         result = await env.reset()
         obs = result.observation
 

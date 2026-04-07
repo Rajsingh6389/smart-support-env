@@ -7,6 +7,7 @@ root_dir = os.path.abspath(os.path.dirname(__file__))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
+from typing import Dict, Any, Optional
 from models import SmartSupportAction, SmartSupportObservation
 from openenv.core import EnvClient
 from openenv.core.client_types import StepResult
