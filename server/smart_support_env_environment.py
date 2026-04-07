@@ -120,7 +120,9 @@ def _grade_easy(action: client.SmartSupportAction, scenario: Dict) -> float:
     empathy_kws = ["sorry", "apologize", "help", "assist", "understand", "resolve", "happy to"]
     if any(kw in response_text for kw in empathy_kws):
         score += 0.50
-    return round(min(score, 1.0), 4)
+    
+    # 🔥 Phase 2 Range Fix: strictly (0, 1)
+    return round(0.01 + (0.98 * min(score, 1.0)), 4)
 
 
 def _grade_medium(action: client.SmartSupportAction, scenario: Dict) -> float:
@@ -134,7 +136,9 @@ def _grade_medium(action: client.SmartSupportAction, scenario: Dict) -> float:
         score += 0.30
     if bool(action.escalate) == scenario["expect_escalate"]:
         score += 0.30
-    return round(min(score, 1.0), 4)
+
+    # 🔥 Phase 2 Range Fix: strictly (0, 1)
+    return round(0.01 + (0.98 * min(score, 1.0)), 4)
 
 
 def _grade_hard(action: client.SmartSupportAction, scenario: Dict) -> float:
@@ -150,7 +154,9 @@ def _grade_hard(action: client.SmartSupportAction, scenario: Dict) -> float:
         score += 0.20
     if bool(action.is_fraud) == scenario["expect_fraud"]:
         score += 0.25
-    return round(min(score, 1.0), 4)
+
+    # 🔥 Phase 2 Range Fix: strictly (0, 1)
+    return round(0.01 + (0.98 * min(score, 1.0)), 4)
 
 
 GRADERS = {
