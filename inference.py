@@ -13,9 +13,6 @@ import textwrap
 from typing import List, Optional
 
 from openai import OpenAI
-from dotenv import load_dotenv
-
-load_dotenv()
 
 #     Project root on path                                                      
 root_dir = os.path.abspath(os.path.dirname(__file__))
@@ -99,7 +96,8 @@ def get_action(client: OpenAI, step: int,
             text  = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
         data = json.loads(text)
         return env_client.SmartSupportAction(**data)
-    except Exception:
+    except Exception as exc:
+        print(f"[DEBUG] Model request failed: {exc}", file=sys.stderr)
         return env_client.SmartSupportAction(
             intent="complaint",
             response="Sorry, I'm here to help you with this issue.",
