@@ -228,7 +228,7 @@ class SmartSupportEnvironment(
             task_type=self._task_type,
             customer_message=self._current_scenario["customer_message"],
             done=False,
-            reward=0.0,
+            reward=0.01,
             metadata={"episode_id": self._episode_id, "task_type": self._task_type},
         )
 
@@ -245,7 +245,7 @@ class SmartSupportEnvironment(
                 task_type="error",
                 customer_message="",
                 done=True,
-                reward=0.0,
+                reward=0.01,
                 metadata={"error": "reset not called before step"},
             )
 

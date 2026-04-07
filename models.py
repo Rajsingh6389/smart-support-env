@@ -56,7 +56,7 @@ class SmartSupportObservation(BaseModel):
             "refund_request", "angry_customer",
             "multi_intent", "escalation",
             "order_tracking", "fraud_detection",
-            "language_switch"
+            "language_switch", "error", "unknown"
         }
         if v not in allowed:
             return "unknown"
